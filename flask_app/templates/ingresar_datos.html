@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nuevo ND</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+</head>
+<body>
+    <nav class="d-flex justify-content-between align-items-center col-12">
+        <h1 class="text-center">Welcome {{user.first_name}}! Make a wish!</h1>
+        <div class="d-flex col-4 justify-content-around">
+            <a href="/logout" class="btn btn-info">Salir</a>
+            <a href="/dash" class="btn btn-primary">Ir a inicio</a>
+        </div>
+
+    </nav>
+    <form action="/wishes" method="post" class="col-11 p-1 my-1 light-dark mx-auto">
+        <h2 class="text-primary"></h2>
+        {% with messages = get_flashed_messages(category_filter=['deseos']) %}
+            {% if messages %}
+            <div class="alert alert-danger" role="alert">
+                <strong>Flash AHHHHHHH!!!!</strong>
+                    {% for message in messages %}
+                    <p>{{message}}</p>
+                    {% endfor %}
+            </div>
+            {% endif %}
+        {% endwith %}
+        
+        <div class="d-flex justify-content-between col-9">
+            <div class="col-4">
+                
+                <div class="form-group">
+                    <label for="patente">Contenedor:</label>
+                    <input type="text" name="patente" class="form-control" required>
+                    <br>
+                    <input type="submit" value="Enviar datos" class="btn btn-primary">
+                </div>
+            </div>
+
+        </div>
+    </form>
+</body>
+</html>

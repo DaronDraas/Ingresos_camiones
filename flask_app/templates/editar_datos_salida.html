@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Editar</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+</head>
+<body>
+    <nav class="d-flex justify-content-between align-items-center col-12">
+        <h2 class="text-center">Estás usando el editor, {{first_name}}!!!</h2>
+        <div class="d-flex col-4 justify-content-around">
+            <a href="/dash" class="btn btn-primary">Inicio</a>
+            <a href="/logout" class="btn btn-info">Salir</a>
+        </div>
+
+    </nav>
+    <form action="/actualizar" method="post" class="col-11 p-4 my-4 light-dark mx-auto">
+        <h2 class="text-primary"></h2>
+        {% with messages = get_flashed_messages(category_filter=['camiones']) %}
+            {% if messages %}
+            <div class="alert alert-danger" role="alert">
+                <strong>Flash AHHHHHHH!!!!</strong>
+                    {% for message in messages %}
+                    <p>{{message}}</p>
+                    {% endfor %}
+            </div>
+            {% endif %}
+        {% endwith %}
+        
+        <div class="d-flex justify-content-between col-9">
+            <div class="col-4">
+                
+                <div class="form-group">
+                    <label for="patente">Contenedor:</label>
+                    <input type="text" name="patente" class="form-control" placeholder={{truck.patente}} required>
+                    <br>
+                    <input type="hidden"  name="id" value="{{truck.id}}">
+                    <input type="submit" value="Actualizar datos" class="btn btn-primary">
+                </div>
+            </div>
+
+        </div>
+    </form>
+</body>
+</html>
