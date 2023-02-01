@@ -15,8 +15,12 @@ def dash():
         "id": session['user_id']
     }
     user = User.get_by_id(data)
-    magazines = User.get_all_magazines()
-    return render_template("dashboard.html", user=user, magazines=magazines)
+    # magazines = User.get_all_magazines()
+    camiones = Truck.get_all()
+    # print(camiones[1].user.created_at)
+    # print(camiones[1].created_at)
+    # print(magazines[0])
+    return render_template("dashboard.html", user=user, camiones=camiones)
 
 @app.route('/logout')
 def index():
@@ -75,12 +79,13 @@ def edit(id):
 #     user = User.get_by_id(data)
 #     return render_template('editar_datos_salida.html', user=user)
 
-@app.route('/actualizar',methods=['POST'])
-def actualizar():
+@app.route('/actualizar/<int:id>',methods=['POST'])
+def actualizar(id):
+    truck_id = id
     if 'user_id' not in session:
         return redirect('/logout')
     if not Truck.validate_deseo(request.form):
-        return redirect('/')
+        return redirect(f'/edit/{truck_id}')
 #     data = { 
 #     "id": session['user_id'],
 #     "patente": request.form["patente"],
