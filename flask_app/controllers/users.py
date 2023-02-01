@@ -15,16 +15,16 @@ def logout():
     session.clear()
     return redirect('/')
 
-@app.route('/dashboard')
-def dashboard():
-    if 'user_id' not in session:
-        return redirect('/logout')
-    data ={
-        'id': session['user_id']
-    }
-    user=User.get_by_id(data)
-    magazines = User.get_all_magazines()
-    return render_template("index.html",user=user, magazines=magazines)
+# @app.route('/dashboard')
+# def dashboard():
+#     if 'user_id' not in session:
+#         return redirect('/logout')
+#     data ={
+#         'id': session['user_id']
+#     }
+#     user=User.get_by_id(data)
+#     magazines = User.get_all_magazines()
+#     return render_template("index.html",user=user, magazines=magazines)
 
 # @app.route('/datos')
 # def datos():
@@ -50,8 +50,10 @@ def login():
 
 @app.route('/register',methods=['POST'])
 def register():
+    # print(request.form)
     if not User.validate_register(request.form):
-        return redirect('/')
+        # print('This is happening')
+        return redirect('/create')
     data ={ 
         "first_name": request.form['first_name'],
         "last_name": request.form['last_name'],
@@ -63,7 +65,7 @@ def register():
 
     return redirect('/dashboard')
 
-@app.route('/create', methods=['POST'])
+@app.route('/create')
 def crear():
     return render_template('crear_cuenta.html')
 
