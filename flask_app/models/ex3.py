@@ -1,5 +1,6 @@
 from flask_app.config.mysqlconnection import connectToMySQL
 from flask import flash
+from flask_app.models import user
 
 class Truck:
     db = 'example3'
@@ -9,36 +10,51 @@ class Truck:
         self.created_at = data['created_at']
         self.updated_at = data['updated_at']
 
+
+
     @classmethod
     def save(cls, data):
-        query = "INSERT INTO camiones ( patente, user_id) VALUES (%(patente)s, %(user_id)s);"
+        query = """INSERT INTO camiones ( patente, user_id) VALUES (%(patente)s, %(user_id)s);"""
         return connectToMySQL(cls.db).query_db(query, data)
 
     @classmethod
     def get_all(cls):
-        query = "SELECT * FROM camiones;"
+        query = """
+        SELECT * FROM camiones
+        LEFT JOIN users ON camiones.user_id = users.id;"""
         results =  connectToMySQL(cls.db).query_db(query)
-        all_deseos = []
+        all_camiones = []
         for row in results:
-            all_deseos.append( cls(row) )
-        return all_deseos
+            camion = cls(row)
+            data2 = {
+                'id': row['user_id'],
+                'first_name': row['first_name'],
+                'last_name': row['last_name'],
+                'email': row['email'],
+                'password': row['password'],
+                'updated_at': row['users.updated_at'],
+                'created_at': row['users.created_at'],
+            }
+            camion.user = (user.User(data2))
+            all_camiones.append( camion )
+        return all_camiones
     
     @classmethod
     def get_one(cls, data):
-        query = "SELECT * FROM camiones WHERE id = %(id)s;"
+        query = """SELECT * FROM camiones WHERE id = %(id)s;"""
         result =connectToMySQL(cls.db).query_db(query, data)
         return cls(result[0])
 
     @classmethod
     def actualizar(cls, data):
-        print(data, "DATA - "*1)
+        # print(data, "DATA - "*1)
         flash("Correcta Actualización")
-        query = "UPDATE camiones SET patente=%(patente)s WHERE id = %(id)s;"
+        query = """UPDATE camiones SET patente=%(patente)s WHERE id = %(id)s;"""
         return connectToMySQL(cls.db).query_db(query, data)
 
     @classmethod
     def destroy(cls,data):
-        query = "DELETE FROM camiones WHERE id = %(id)s;"
+        query = """DELETE FROM camiones WHERE id = %(id)s;"""
         return connectToMySQL(cls.db).query_db(query,data)
 
     # @classmethod
@@ -58,5 +74,5 @@ class Truck:
         #     flash("Item name must be at least 3 characters","deseo")
         if len(deseo['patente']) < 3:
             is_valid = False
-            flash("description must be at least 10 characters","deseo")
+            flash(u"Description must be at least 10 characters","camiones")
         return is_valid
