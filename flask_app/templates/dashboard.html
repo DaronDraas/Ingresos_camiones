@@ -18,7 +18,7 @@
         </div>
         <div class="nav-item col-5">
             <form class="d-flex" action="/search" method="post">
-                {{form.hidden_tag()}}
+
             <input type="search" id="form1" class="form-control" placeholder="Buscar ND" aria-label="Search" name="searched" />
             <button type="submit">Buscar</button>
             </form>
@@ -35,16 +35,15 @@
                         </tr>
                     </thead>
                     <tbody>
-                        {% for f in magazines %}
+                        {% for f in camiones %}
                             
                         <tr>
                             <td>{{f.patente}}</td>
-                            <td>{{f.first_name}}-{{f.created_at.strftime("%a, %d %b %Y %H:%M:%S")}}</td>
+                            <td>{{f.user.first_name}}-{{f.created_at.strftime("%a, %d %b %Y %H:%M:%S")}}</td>
                             <td>{{f.updated_at.strftime("%a, %d %b %Y %H:%M:%S")}}</td>
                             <td>
-                            {% if f.user_id == session.user_id %}
-                            <!-- <a href="/destroy/{{f.camiones_id}}">Remover</a> -->
-                            <a href="/edit/{{f.camiones_id}}">Editar</a>
+                            {% if f.user.id == session.user_id %}
+                            <a href="/edit/{{f.id}}">Editar</a>
                             {% endif %}
                             </td>
                         </tr>

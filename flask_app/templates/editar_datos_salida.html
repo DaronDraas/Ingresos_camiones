@@ -9,19 +9,19 @@
 </head>
 <body>
     <nav class="d-flex justify-content-between align-items-center col-12">
-        <h2 class="text-center">Estás usando el editor, {{first_name}}!!!</h2>
+        <h2 class="text-center">Estás usando el editor, {{user.first_name}}!!!</h2>
         <div class="d-flex col-4 justify-content-around">
             <a href="/dash" class="btn btn-primary">Inicio</a>
             <a href="/logout" class="btn btn-info">Salir</a>
         </div>
 
     </nav>
-    <form action="/actualizar" method="post" class="col-11 p-4 my-4 light-dark mx-auto">
+    <form action="/actualizar/{{truck.id}}" method="post" class="col-11 p-4 my-4 light-dark mx-auto">
         <h2 class="text-primary"></h2>
         {% with messages = get_flashed_messages(category_filter=['camiones']) %}
             {% if messages %}
             <div class="alert alert-danger" role="alert">
-                <strong>Flash AHHHHHHH!!!!</strong>
+                <!-- <strong>Flash AHHHHHHH!!!!</strong> -->
                     {% for message in messages %}
                     <p>{{message}}</p>
                     {% endfor %}
