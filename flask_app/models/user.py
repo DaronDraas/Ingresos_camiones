@@ -16,30 +16,31 @@ class User:
 
     @classmethod
     def save(cls,data):
-        query = "INSERT INTO users (first_name,last_name,email,password) VALUES(%(first_name)s,%(last_name)s,%(email)s,%(password)s)"
+        query = """INSERT INTO users (first_name,last_name,email,password) VALUES(%(first_name)s,%(last_name)s,%(email)s,%(password)s)"""
         return connectToMySQL(cls.db_name).query_db(query,data)
 
     @classmethod
     def get_all(cls):
-        query = "SELECT * FROM users;"
+        query = """SELECT * FROM users;"""
         results = connectToMySQL(cls.db_name).query_db(query)
         users = []
         for row in results:
             users.append( cls(row))
         return users
 #para el dashboard
-    @classmethod
-    def get_all_magazines(cls):
-        query = "SELECT users.id, first_name, last_name, email, password, users.created_at, users.updated_at, camiones.id as camiones_id, patente, camiones.created_at, camiones.updated_at, user_id FROM users JOIN camiones ON users.id = camiones.user_id;"
-        results = connectToMySQL(cls.db_name).query_db(query)
-        magazines= []
-        for row in results:
-            magazines.append( cls(row) )
-        return results
+    # @classmethod
+    # def get_all_magazines(cls):
+    #     query = """SELECT users.id, first_name, last_name, email, password, users.created_at AS U_created_at, users.updated_at AS U_updated_at, camiones.id as camiones_id, patente, camiones.created_at AS created_at, camiones.updated_at AS updated_at, user_id FROM users JOIN camiones ON users.id = camiones.user_id;"""
+    #     results = connectToMySQL(cls.db_name).query_db(query)
+    #     magazines= []
+    #     # print(results)
+    #     for row in results:
+    #         magazines.append( cls(row) )
+    #     return results
 
     @classmethod
     def get_by_email(cls,data):
-        query = "SELECT * FROM users WHERE email = %(email)s;"
+        query = """SELECT * FROM users WHERE email = %(email)s;"""
         results = connectToMySQL(cls.db_name).query_db(query,data)
         if len(results) < 1:
             return False
@@ -47,7 +48,7 @@ class User:
 
     @classmethod
     def get_by_id(cls,data):
-        query = "SELECT * FROM users WHERE id = %(id)s;"
+        query = """SELECT * FROM users WHERE id = %(id)s;"""
         results = connectToMySQL(cls.db_name).query_db(query,data)
         if len(results) < 1:
             return False
@@ -56,24 +57,25 @@ class User:
     @staticmethod
     def validate_register(user):
         is_valid = True
-        query = "SELECT * FROM users WHERE email = %(email)s;"
+        query = """SELECT * FROM users WHERE email = %(email)s;"""
         results = connectToMySQL(User.db_name).query_db(query,user)
         if len(user['first_name']) < 2:
             is_valid = False
-            flash("First name must be at least 2 characters.","register")
+            flash(u"First name must be at least 2 characters.","register")
         if len(user['last_name']) < 2:
             is_valid = False
-            flash("Last name must be at least 2 characters.","register")
+            flash(u"Last name must be at least 2 characters.","register")
         if not EMAIL_REGEX.match(user['email']):
             is_valid = False
-            flash("Invalid Email Address.","register")
+            flash(u"Invalid Email Address.","register")
         if len(user['password']) < 8:
             is_valid = False
-            flash("Password must be at least 8 characters.","register")
+            flash(u"Password must be at least 8 characters.","register")
         if user['password'] != user['confirm']:
             is_valid = False
-            flash("Passwords do not match!","register")
+            flash(u"Passwords do not match!","register")
         if len(results) >= 1:
-            flash("Email already taken.","register")
+            flash(u"Email already taken.","register")
             is_valid=False
+        print(is_valid)
         return is_valid
