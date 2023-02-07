@@ -9,9 +9,7 @@ class Truck:
         self.patente = data['patente']
         self.created_at = data['created_at']
         self.updated_at = data['updated_at']
-
-
-
+    
     @classmethod
     def save(cls, data):
         query = """INSERT INTO camiones ( patente, user_id) VALUES (%(patente)s, %(user_id)s);"""

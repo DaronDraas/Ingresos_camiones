@@ -63,10 +63,10 @@ def register():
     id = User.save(data)
     session['user_id'] = id
 
-    return redirect('/dashboard')
+    return redirect('/dash')
 
 @app.route('/create')
-def crear():
+def crear_usuario():
     return render_template('crear_cuenta.html')
 
 
