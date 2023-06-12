@@ -34,7 +34,7 @@
                 
                 <div class="form-group">
                     <label for="patente">Contenedor:</label>
-                    <input type="text" name="patente" class="form-control" placeholder={{truck.patente}} required>
+                    <input type="text" name="patente" class="form-control" placeholder={{truck.patente}} maxlength="6" required>
                     <br>
                     <input type="hidden"  name="id" value="{{truck.id}}">
                     <input type="submit" value="Actualizar datos" class="btn btn-primary">

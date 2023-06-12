@@ -2,6 +2,7 @@ from flask import render_template,redirect,session,request, flash
 from flask_app import app
 from flask_app.models.ex3 import Truck
 from flask_app.models.user import User
+import datetime
 
 @app.route('/')
 def logstart():
@@ -50,6 +51,20 @@ def all_magazines():
     Truck.save(data)
     return redirect('/dash')
 
+@app.route('/search', methods=['POST'])
+def search():
+    if 'user_id' not in session:
+        return redirect('/logout')
+    
+    # Retrieve the search query from the form data
+    search_query = request.form.get('search_query')
+    
+    # Perform the necessary search logic or database query based on the search query
+    results = Truck.show(search_query)
+    
+    # Return the search results or redirect to an appropriate page
+    return render_template('search_results.html', results=results)
+
 @app.route('/destroy/<int:id>')
 def destroy(id):
     if 'user_id' not in session:
@@ -69,15 +84,17 @@ def edit(id):
     }
     return render_template("editar_datos_salida.html", truck = Truck.get_one(data), user = User.get_by_id(data))
 
-# @app.route('/editar')
-# def user_edit():
-#     if 'user_id' not in session:
-#         return redirect('/logout')
-#     data ={
-#         "id": session['user_id']
-#     }
-#     user = User.get_by_id(data)
-#     return render_template('editar_datos_salida.html', user=user)
+@app.route('/modify-time/<int:id>', methods=['POST'])
+def modify_time(id):
+    if 'user_id' not in session:
+        return redirect('/logout')
+    data = {
+        "id": id
+    }
+    truck = Truck.get_one(data)
+    truck.modified_at = datetime.datetime.now()
+    # Update the modified time in the database or perform any other desired modifications
+    return redirect('/dash')
 
 @app.route('/actualizar/<int:id>',methods=['POST'])
 def actualizar(id):
@@ -92,30 +109,3 @@ def actualizar(id):
 # }
     Truck.actualizar(request.form)
     return redirect('/dash')
-
-# @app.route('/search',methods=['POST'])
-# def buscar():
-#     posts = Post.query
-
-# @app.route('/count/')
-# def contador():
-#         if 'visitas' in session:
-#             print('la llave existe!')
-#             session['visitas'] +=1
-#         else:
-#             print("la llave 'key_name' NO existe")
-#             session['visitas'] = 1
-
-#         return redirect('/wishes')
-
-# @app.route('/granted/<int:id>')
-# def granted(id):
-#     if 'user_id' not in session:
-#             return redirect('/logout')
-#     data={
-#         'id':id
-#     }
-#     Deseo.destroy(data)
-
-
-#     return redirect('/wishes') 
