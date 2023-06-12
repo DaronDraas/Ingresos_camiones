@@ -51,12 +51,12 @@ class Truck:
     @classmethod
     def show(cls, data):
         query = """
-            SELECT camiones.*, users.first_name, users.last_name
+            SELECT camiones.*, users.first_name, users.last_name, users.email, users.password, users.updated_at, users.created_at
             FROM camiones
             LEFT JOIN users ON camiones.user_id = users.id
             WHERE camiones.patente LIKE %s
         """
-        search_query = '%{}%'.format(data)
+        search_query = '%' + data + '%'
         result = connectToMySQL(cls.db).query_db(query, (search_query,))
         if result:
             trucks = []
@@ -67,6 +67,10 @@ class Truck:
                         'id': row['user_id'],
                         'first_name': row['first_name'],
                         'last_name': row['last_name'],
+                        'email': row['email'],
+                        'password': row['password'],
+                        'updated_at': row['users.updated_at'],
+                        'created_at': row['users.created_at'],
                     }
                     truck.user = User(data2)
                 trucks.append(truck)

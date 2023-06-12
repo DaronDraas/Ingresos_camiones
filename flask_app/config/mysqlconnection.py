@@ -16,8 +16,10 @@ class MySQLConnection:
     def query_db(self, query, data=None):
         with self.connection.cursor() as cursor:
             try:
-                query = cursor.mogrify(query, data)
                 print("Running Query:", query)
+                cursor.execute(query, data)
+                #query = cursor.mogrify(query, data)
+                #print("Running Query:", query)
 
                 cursor.execute(query, data)
                 if query.lower().find("insert") >= 0:
