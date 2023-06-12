@@ -27,16 +27,6 @@ class User:
         for row in results:
             users.append( cls(row))
         return users
-#para el dashboard
-    # @classmethod
-    # def get_all_magazines(cls):
-    #     query = """SELECT users.id, first_name, last_name, email, password, users.created_at AS U_created_at, users.updated_at AS U_updated_at, camiones.id as camiones_id, patente, camiones.created_at AS created_at, camiones.updated_at AS updated_at, user_id FROM users JOIN camiones ON users.id = camiones.user_id;"""
-    #     results = connectToMySQL(cls.db_name).query_db(query)
-    #     magazines= []
-    #     # print(results)
-    #     for row in results:
-    #         magazines.append( cls(row) )
-    #     return results
 
     @classmethod
     def get_by_email(cls,data):

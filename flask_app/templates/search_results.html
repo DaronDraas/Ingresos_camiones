@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Search Results</title>
+    <style>
+        table {
+            border-collapse: collapse;
+        }
+        th, td {
+            border: 1px solid black;
+            padding: 8px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Search Results</h1>
+    
+    <form action="/search" method="POST">
+        <label for="search_query">Search:</label>
+        <input type="text" name=search id="search_query">
+        <button type="submit">Search</button>
+    </form>
+    
+    {% if results %}
+        <table>
+            <thead>
+                <tr>
+                    <th>Patente</th>
+                    <th>N</th>
+                    <th>Nombre</th>
+                    <!-- Add more table headers if needed -->
+                </tr>
+            </thead>
+            <tbody>
+                {% for result in results %}
+                    <tr>
+                        <td>{{result.patente}}</td>
+                        <td>{{result.user.first_name}}-{{result.created_at.strftime("%a, %d %b %Y %H:%M:%S")}}</td>
+                        <td>{{result.updated_at.strftime("%a, %d %b %Y %H:%M:%S")}}</td>
+                        <!-- <td>{{result.user.id}}</td>
+                        <td>{{result.user.first_name}}</td>-->
+                        <!-- Add more table cells if needed -->
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    {% else %}
+        <p>No results found.</p>
+    {% endif %}
+    
+    <a href="/dash">Go back to Dashboard</a>
+</body>
+</html>
