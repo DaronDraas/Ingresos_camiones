@@ -6,4 +6,4 @@ Proyecto basado en generar una base de datos diaria del ingreso de camiones a Ce
 
 ## Principales características o funcionalidades del proyecto.
 - Otorgar una visión precisa de lo que ocurre en proceso de ingreso camiones; cantidades, origen, etc.
-- Simplificación del ingreso de data a un estandarizado digital con parámetros claros al ingreso de data.
+- Simplificación del ingreso de data a un estandarizado digital con parámetros claros al ingreso de esta.
